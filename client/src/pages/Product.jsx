@@ -38,10 +38,16 @@ const Type = styled.p`
 	margin-bottom: 2px;
 `;
 
+const InStock = styled.p`
+	color: gray;
+	margin: 0;
+`;
+
 const Desc = styled.p`
 	font-size: 24px;
 	margin: 0;
 	margin-bottom: 20px;
+	margin-top: 20px;
 `;
 
 const Price = styled.span`
@@ -58,10 +64,13 @@ const Button = styled.button`
 	font-size: 18px;
 	color: black;
 	font-weight: 500;
-	cursor: pointer;
+	&:not([disabled]) {
+		cursor: pointer;
+	}
+
 	transition: 200ms;
 
-	&:hover {
+	&:hover:not([disabled]) {
 		background-color: black;
 		color: white;
 	}
@@ -79,6 +88,7 @@ const Product = ({ item }) => {
 					<Title>{item.itemName}</Title>
 					<Price>{item.price} ₽</Price>
 					<Type>Type: {item.type.join(", ")}</Type>
+					<InStock>In stock: {item.quantity}</InStock>
 					<Desc>
 						Lorem ipsum dolor, sit amet consectetur adipisicing
 						elit. Praesentium consequuntur omnis dignissimos
@@ -86,7 +96,9 @@ const Product = ({ item }) => {
 						nihil delectus quos vel voluptates voluptate unde
 						accusantium nam veritatis eum repellendus.
 					</Desc>
-					<Button>Add to cart</Button>
+					<Button disabled={item.quantity <= 0 ? true : false}>
+						{item.quantity > 0 ? "Add to cart" : "Sold out"}
+					</Button>
 				</InfoContainer>
 			</Wrapper>
 			<Footer></Footer>

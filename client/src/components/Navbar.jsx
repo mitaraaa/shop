@@ -20,7 +20,6 @@ const Wrapper = styled.div`
 `;
 
 const SearchContainer = styled.div`
-	width: 50%;
 	display: flex;
 	align-items: center;
 	padding: 3px;
