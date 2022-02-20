@@ -16,12 +16,9 @@ mongoose
 		console.error(err);
 	});
 
-app.use("/api/user", userRoute);
-
-app.get("/api/test", () => {
-	console.log("Test is successful!");
-});
+app.use(express.json());
+app.use("/api/users", userRoute);
 
 app.listen(PORT, () => {
-	console.log("Listening to port 5000;");
+	console.log(`Listening to port ${PORT};`);
 });
