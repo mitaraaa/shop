@@ -49,6 +49,12 @@ const ShoppingCartIcon = styled.img`
 	cursor: pointer;
 `;
 
+const UserIcon = styled.img`
+	width: 24px;
+	height: 24px;
+	cursor: pointer;
+`;
+
 const Logo = styled.h1`
 	font-family: "Monotype Old English Text";
 	font-size: 36px;
@@ -64,9 +70,11 @@ const Left = styled.div`
 	flex: 1;
 	${mobile({ display: "none" })}
 `;
+
 const Center = styled.div`
 	flex: 2;
 `;
+
 const Right = styled.div`
 	display: flex;
 	align-items: center;
@@ -74,6 +82,7 @@ const Right = styled.div`
 		"justify-content": "flex-end",
 		"padding-right": "30px",
 	})}
+	gap: 10px;
 	flex: 1;
 `;
 
@@ -97,6 +106,7 @@ export const Navbar = () => {
 						<Input placeholder="search"></Input>
 					</SearchContainer>
 					<ShoppingCartIcon src="https://img.icons8.com/fluency-systems-regular/48/000000/shopping-cart.png"></ShoppingCartIcon>
+					<UserIcon src="https://img.icons8.com/fluency-systems-regular/48/000000/user.png"></UserIcon>
 				</Right>
 			</Wrapper>
 		</Container>
