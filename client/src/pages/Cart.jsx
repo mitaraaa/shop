@@ -3,6 +3,9 @@ import styled from "styled-components";
 import Footer from "../components/Footer";
 import { Navbar } from "../components/Navbar";
 import { mobile } from "../responsive";
+import { useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
+import { removeProduct } from "../redux/cartRedux";
 
 const Container = styled.div``;
 
@@ -50,6 +53,7 @@ const Product = styled.div`
 	})}
 	justify-content: flex-start;
 	min-height: 140px;
+	transition: 200ms;
 `;
 
 const ImageContainer = styled.div`
@@ -78,7 +82,7 @@ const InfoContainer = styled.div`
 	justify-content: space-between;
 	align-items: center;
 	flex-direction: row;
-	${mobile({ "flex-direction": "column" })}
+	${mobile({ "flex-direction": "column", height: "160px" })}
 `;
 
 const LeftInfo = styled.div`
@@ -100,29 +104,11 @@ const AmountText = styled.span`
 	margin-right: 10px;
 `;
 
-const Amount = styled.span`
-	text-align: left;
-	font-weight: 400;
-	font-size: 18px;
-	margin: 0px 10px;
-`;
-
 const Price = styled.span`
 	text-align: left;
 	font-weight: 400;
 	font-size: 24px;
-`;
-
-const ArrowButton = styled.img`
-	width: 16px;
-	height: 16px;
-	cursor: pointer;
-`;
-
-const AmountContainer = styled.div`
-	display: flex;
-	flex-direction: row;
-	align-items: center;
+	${mobile({ "margin-top": "20px" })}
 `;
 
 const RemoveButton = styled.button`
@@ -193,74 +179,81 @@ const BuyButton = styled.button`
 `;
 
 const Cart = () => {
+	const cart = useSelector((state) => state.cart);
+	const dispatch = useDispatch();
+
+	const handleRemove = (product) => {
+		dispatch(removeProduct({ product }));
+	};
+
 	return (
 		<Container>
 			<Navbar></Navbar>
 			<Title>Shopping cart</Title>
 			<Wrapper>
 				<Products>
-					<Product>
-						<ImageContainer>
-							<Image src="https://sun9-18.userapi.com/impg/uKfBfz-VBkNJyv-5b4HJsE35wsZEX-xsOr7VjA/sqniang1Xgo.jpg?size=1550x1475&quality=96&sign=38cd3aecbaded6c02633e1e6fb1ff92a&type=album"></Image>
-						</ImageContainer>
-						<InfoContainer>
-							<LeftInfo>
-								<Name>bebra cloat</Name>
-								<AmountContainer>
-									<AmountText>Amount: </AmountText>
-									<ArrowButton src="https://img.icons8.com/fluency-systems-regular/24/000000/minus-math.png"></ArrowButton>
-									<Amount>1</Amount>
-									<ArrowButton src="https://img.icons8.com/fluency-systems-regular/24/000000/plus-math.png"></ArrowButton>
-								</AmountContainer>
-							</LeftInfo>
-							<Price>3990 P</Price>
-							<RemoveButton>Remove</RemoveButton>
-						</InfoContainer>
-					</Product>
-
-					<Product>
-						<ImageContainer>
-							<Image src="https://sun9-18.userapi.com/impg/uKfBfz-VBkNJyv-5b4HJsE35wsZEX-xsOr7VjA/sqniang1Xgo.jpg?size=1550x1475&quality=96&sign=38cd3aecbaded6c02633e1e6fb1ff92a&type=album"></Image>
-						</ImageContainer>
-						<InfoContainer>
-							<LeftInfo>
-								<Name>bebra cloat</Name>
-								<AmountContainer>
-									<AmountText>Amount: </AmountText>
-									<ArrowButton src="https://img.icons8.com/fluency-systems-regular/24/000000/minus-math.png"></ArrowButton>
-									<Amount>1</Amount>
-									<ArrowButton src="https://img.icons8.com/fluency-systems-regular/24/000000/plus-math.png"></ArrowButton>
-								</AmountContainer>
-							</LeftInfo>
-							<Price>3990 P</Price>
-							<RemoveButton>Remove</RemoveButton>
-						</InfoContainer>
-					</Product>
-
-					<Product>
-						<ImageContainer>
-							<Image src="https://sun9-18.userapi.com/impg/uKfBfz-VBkNJyv-5b4HJsE35wsZEX-xsOr7VjA/sqniang1Xgo.jpg?size=1550x1475&quality=96&sign=38cd3aecbaded6c02633e1e6fb1ff92a&type=album"></Image>
-						</ImageContainer>
-						<InfoContainer>
-							<LeftInfo>
-								<Name>bebra cloat</Name>
-								<AmountContainer>
-									<AmountText>Amount: </AmountText>
-									<ArrowButton src="https://img.icons8.com/fluency-systems-regular/24/000000/minus-math.png"></ArrowButton>
-									<Amount>1</Amount>
-									<ArrowButton src="https://img.icons8.com/fluency-systems-regular/24/000000/plus-math.png"></ArrowButton>
-								</AmountContainer>
-							</LeftInfo>
-							<Price>3990 P</Price>
-							<RemoveButton>Remove</RemoveButton>
-						</InfoContainer>
-					</Product>
+					{cart.products.map((product) => (
+						<Product>
+							<ImageContainer>
+								<Image src={product.product.img}></Image>
+							</ImageContainer>
+							<InfoContainer>
+								<LeftInfo>
+									<Name>{product.product.title}</Name>
+									<AmountText>
+										Price: {product.product.price} ₽
+									</AmountText>
+									<AmountText>
+										Amount: {product.quantity}
+									</AmountText>
+								</LeftInfo>
+								<Price>
+									{product.product.price * product.quantity} ₽
+								</Price>
+								<RemoveButton
+									onClick={() =>
+										handleRemove(product.product)
+									}
+								>
+									Remove
+								</RemoveButton>
+							</InfoContainer>
+						</Product>
+					))}
 				</Products>
 				<Summary>
 					<SummaryTitle>Summary</SummaryTitle>
-					<SummaryPrice>Products total: 3990 P</SummaryPrice>
-					<SummaryPrice>Shipping price: 690 P</SummaryPrice>
-					<SummaryTotal>Total price: 4980 P</SummaryTotal>
+					<SummaryPrice>
+						Products total:{" "}
+						{cart.products.reduce(
+							(partialSum, a) =>
+								partialSum + a.product.price * a.quantity,
+							0
+						)}{" "}
+						₽
+					</SummaryPrice>
+					<SummaryPrice>
+						Shipping price:{" "}
+						{cart.products.reduce(
+							(partialSum, a) =>
+								partialSum + a.product.price * a.quantity,
+							0
+						) *
+							0.05 +
+							50}{" "}
+						₽
+					</SummaryPrice>
+					<SummaryTotal>
+						Total price:{" "}
+						{cart.products.reduce(
+							(partialSum, a) =>
+								partialSum + a.product.price * a.quantity,
+							0
+						) *
+							1.05 +
+							50}{" "}
+						₽
+					</SummaryTotal>
 					<BuyButton>Buy</BuyButton>
 				</Summary>
 			</Wrapper>

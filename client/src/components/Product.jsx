@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import { mobile } from "../responsive";
+import { Link } from "react-router-dom";
 
 const Image = styled.img`
 	width: 40%;
@@ -20,7 +21,11 @@ const Container = styled.div`
 	cursor: pointer;
 	transition: 200ms;
 
-	${mobile({ "min-width": "360px" })}
+	${mobile({
+		"min-width": "360px",
+		"flex-direction": "column",
+		"align-items": "center",
+	})}
 
 	&:hover ${Image} {
 		opacity: 0.8;
@@ -31,25 +36,30 @@ const Container = styled.div`
 const Name = styled.span`
 	font-size: 18px;
 	text-align: left;
-	${mobile({ "margin-left": "20px" })}
+	${mobile({ "text-align": "center" })}
 `;
 
 const Price = styled.span`
 	font-size: 18px;
 	text-align: left;
+	${mobile({ "text-align": "center" })}
 	color: lightgray;
-	${mobile({ "margin-left": "20px" })}
 `;
 
-const Product = ({ item }) => {
+const Product = ({ product }) => {
 	return (
-		<Container>
-			<Image src={item.src}></Image>
-			<Name>
-				{item.type.join(" ")} {item.itemName}
-			</Name>
-			<Price>{item.price} ₽</Price>
-		</Container>
+		<Link
+			to={`/product/${product._id}`}
+			style={{ color: "black", textDecoration: "none" }}
+		>
+			<Container>
+				<Image src={product.img}></Image>
+				<Name>
+					{product.types.join(" ")} {product.title}
+				</Name>
+				<Price>{product.price} ₽</Price>
+			</Container>
+		</Link>
 	);
 };
 

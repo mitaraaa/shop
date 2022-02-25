@@ -1,9 +1,10 @@
 const Product = require("../models/Product");
+
 const router = require("express").Router();
 
-// Create
+//CREATE
 router.post("/", async (req, res) => {
-	const newProduct = Product(req.body);
+	const newProduct = new Product(req.body);
 
 	try {
 		const savedProduct = await newProduct.save();
@@ -13,7 +14,7 @@ router.post("/", async (req, res) => {
 	}
 });
 
-// Update
+//UPDATE
 router.put("/:id", async (req, res) => {
 	try {
 		const updatedProduct = await Product.findByIdAndUpdate(
@@ -29,17 +30,17 @@ router.put("/:id", async (req, res) => {
 	}
 });
 
-// Delete
+//DELETE
 router.delete("/:id", async (req, res) => {
 	try {
 		await Product.findByIdAndDelete(req.params.id);
-		res.status(200).json("Product has been deleted.");
+		res.status(200).json("Product has been deleted...");
 	} catch (err) {
 		res.status(500).json(err);
 	}
 });
 
-// Get product
+//GET PRODUCT
 router.get("/find/:id", async (req, res) => {
 	try {
 		const product = await Product.findById(req.params.id);
@@ -49,19 +50,31 @@ router.get("/find/:id", async (req, res) => {
 	}
 });
 
-// Get all products
+// FIND BY NAME
+router.get("/search/:title", async (req, res) => {
+	try {
+		const product = await Product.find({
+			title: { $regex: new RegExp(req.params.title), $options: "i" },
+		});
+		res.status(200).json(product);
+	} catch (err) {
+		res.status(500).json(err);
+	}
+});
+
+//GET ALL PRODUCTS
 router.get("/", async (req, res) => {
 	const qNew = req.query.new;
-	const qType = req.query.type;
+	const qtype = req.query.type;
 	try {
 		let products;
 
 		if (qNew) {
 			products = await Product.find().sort({ createdAt: -1 }).limit(1);
-		} else if (qType) {
+		} else if (qtype) {
 			products = await Product.find({
-				categories: {
-					$in: [qType],
+				types: {
+					$in: [qtype],
 				},
 			});
 		} else {

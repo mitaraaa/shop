@@ -1,15 +1,25 @@
+import {
+	BrowserRouter as Router,
+	Routes,
+	Route,
+	Navigate,
+} from "react-router-dom";
+
 import Home from "./pages/Home";
-import { items } from "./data";
 import Product from "./pages/Product";
 import Cart from "./pages/Cart";
-import Login from "./pages/Login";
-import Register from "./pages/Register";
 
 const App = () => {
 	return (
-		<div className="App">
-			<Home />
-		</div>
+		<Router>
+			<Routes>
+				<Route exact path="/" element={<Home />} />
+				<Route exact path="/product/:id" element={<Product />} />
+				<Route exact path="/cart" element={<Cart />} />
+				<Route exact path="/search/:title" element={<Home />} />
+				<Route exact path="/search/" element={<Navigate to="/" />} />
+			</Routes>
+		</Router>
 	);
 };
 

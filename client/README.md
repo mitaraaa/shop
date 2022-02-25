@@ -1,70 +1,91 @@
-# Getting Started with Create React App
+## Shop [client]
+This is a guide to help in understanding the structure of my project
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+---
 
-## Available Scripts
+### About
+- **Goals:** make a fullstack minimal viable product
+- **Objectives:** 
+  1. Create React app 
+  2. Add a REST API
+  3. Combine React frontend with API
+- **Purpose:** E-commerce website for clothing
+- **Used technologies:**
+  - Javascript & JSX
+  - Node.js
+  - React
+  - Redux
+  - Mongo.db
+  - Express
 
-In the project directory, you can run:
+---
 
-### `npm start`
+### Structure
+```client/
+├─ public/
+│  ├─ favicon.ico
+│  ├─ index.html
+│  ├─ robots.txt
+├─ src/
+│  ├─ components/
+│  │  ├─ Footer.jsx
+│  │  ├─ Navbar.jsx
+│  │  ├─ Product.jsx
+│  │  ├─ Products.jsx
+│  ├─ pages/
+│  │  ├─ Cart.jsx
+│  │  ├─ Product.jsx
+│  │  ├─ Home,jsx
+│  ├─ redux/
+│  │  ├─ store.js
+│  │  ├─ cartRedux.js
+│  ├─ App.jsx
+│  ├─ index.css
+│  ├─ index.js
+│  ├─ requestMethods.js
+│  ├─ responsive.js
+├─ .gitignore
+├─ package.json
+├─ README.md
+```
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+`public/` : folder with base html code (`favicon`, `html layout`, `robots file`)
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+`src/` : folder with source code
+- `index.js` : React project entry point, renders React JSX in HTML **`div`** with **`root`** class
+- `App.jsx` : Main React component, returns routed pages
+- `requestMethods.js` : Exports **`axios`** requests
+- `responsive.js` : **`styled`** library binding to insert adapted css into components
+- `pages/` : Folder with all React pages
+  - `Cart.jsx` : Renders cart page
+  - `Product.jsx` : Renders single product page
+  - `Home.jsx` : Renders homepage
+- `components/`
+  - `Navbar.jsx` : Navbar component
+  - `Product.jsx` : Product component, used in **`Products.jsx`**
+  - `Products.jsx` : Product list component, renders all products or products that were searched
+  - `Footer.jsx` : Footer component
+- `redux/` : Folder with **`Redux`** code
+  - `cartRedux.js` : Declares `cart` slice and methods to manipulate cart
+  - `store.js` : Creates persist storage and provides interaction with **`cartRedux.js`**
 
-### `npm test`
+---
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### Literature sources
+- [React E-commerce App tutorial (Youtube)](https://youtu.be/y66RgYMAgSo)
+- [MERN Stack guide (Github)](https://github.com/safak/youtube/blob/mern-ecommerce-app/)
+- [Redux Essentials guide](https://redux.js.org/tutorials/essentials/part-1-overview-concepts)
+- [Styled components documentation](https://styled-components.com/docs)
+- [React documentation](https://reactjs.org/docs/getting-started.html)
+- [Mongo DB MERN Stack tutotial](https://www.mongodb.com/languages/mern-stack-tutorial)
 
-### `npm run build`
+---
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+### Criteria
+- [x] Aims, objectives, detailed information about project
+- [x] References to literature source(s)
+- [x] High-quality images
+- [x] HTML, CSS, JavaScript coverage
+- [x] Bootstrap usage < 40%
+- [x] README.md file
+- [x] Responsiveness for 5 screen types

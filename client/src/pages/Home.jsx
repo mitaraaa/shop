@@ -7,7 +7,7 @@ const Home = () => {
 	return (
 		<div>
 			<Navbar />
-			<Products></Products>
+			<Products search={null}></Products>
 			<Footer></Footer>
 		</div>
 	);

@@ -1,13 +1,9 @@
 const dotenv = require("dotenv");
 const express = require("express");
 const mongoose = require("mongoose");
+const cors = require("cors");
 
 const productRoute = require("./routes/product");
-const userRoute = require("./routes/user");
-const cartRoute = require("./routes/cart");
-const authRoute = require("./routes/auth");
-const orderRoute = require("./routes/order");
-const stripeRoute = require("./routes/stripe");
 
 dotenv.config();
 const app = express();
@@ -21,12 +17,9 @@ mongoose
 	});
 
 app.use(express.json());
+app.use(cors());
+
 app.use("/api/products", productRoute);
-app.use("/api/users", userRoute);
-app.use("/api/carts", cartRoute);
-app.use("/api/auth", authRoute);
-app.use("/api/orders", orderRoute);
-app.use("/api/payment", paymentRoute);
 
 app.listen(PORT, () => {
 	console.log(`Listening to port ${PORT};`);

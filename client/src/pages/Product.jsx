@@ -2,6 +2,11 @@ import styled from "styled-components";
 import Footer from "../components/Footer";
 import { Navbar } from "../components/Navbar";
 import { mobile } from "../responsive";
+import { useLocation } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { publicRequest } from "../requestMethods";
+import { addProduct } from "../redux/cartRedux";
+import { useDispatch } from "react-redux";
 
 const Container = styled.div``;
 
@@ -76,28 +81,95 @@ const Button = styled.button`
 	}
 `;
 
-const Product = ({ item }) => {
+const Amount = styled.span`
+	color: black;
+	width: 30px;
+	height: 30px;
+	border-radius: 8px;
+	border: 2px solid gray;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	margin: 0px 5px;
+`;
+
+const ArrowButton = styled.img`
+	width: 18px;
+	height: 18px;
+	cursor: pointer;
+`;
+
+const AmountContainer = styled.div`
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	margin-bottom: 20px;
+`;
+
+const Product = () => {
+	const location = useLocation();
+	const id = location.pathname.split("/")[2];
+	const [product, setProduct] = useState(null);
+	const [quantity, setQuantity] = useState(1);
+	const dispatch = useDispatch();
+
+	useEffect(() => {
+		const getProduct = async () => {
+			try {
+				const res = await publicRequest.get("/products/find/" + id);
+				setProduct(res.data);
+			} catch (e) {
+				console.log(e);
+			}
+		};
+		getProduct();
+	}, [id]);
+
+	const handleQuantity = (type) => {
+		if (type === "dec") {
+			quantity > 1 && setQuantity(quantity - 1);
+		} else {
+			if (product.inStock > quantity) setQuantity(quantity + 1);
+		}
+	};
+
+	const handleClick = () => {
+		dispatch(addProduct({ product, quantity }));
+	};
+
 	return (
 		<Container>
 			<Navbar></Navbar>
 			<Wrapper>
 				<ImageContainer>
-					<Image src={item.src}></Image>
+					<Image src={product && product.img}></Image>
 				</ImageContainer>
 				<InfoContainer>
-					<Title>{item.itemName}</Title>
-					<Price>{item.price} ₽</Price>
-					<Type>Type: {item.type.join(", ")}</Type>
-					<InStock>In stock: {item.quantity}</InStock>
-					<Desc>
-						Lorem ipsum dolor, sit amet consectetur adipisicing
-						elit. Praesentium consequuntur omnis dignissimos
-						quibusdam laudantium, laboriosam architecto alias odio
-						nihil delectus quos vel voluptates voluptate unde
-						accusantium nam veritatis eum repellendus.
-					</Desc>
-					<Button disabled={item.quantity <= 0 ? true : false}>
-						{item.quantity > 0 ? "Add to cart" : "Sold out"}
+					<Title>{product && product.title}</Title>
+					<Price>{product && product.price} ₽</Price>
+					<Type>Type: {product && product.types.join(", ")}</Type>
+					<InStock>In stock: {product && product.inStock}</InStock>
+					<Desc>{product && product.description}</Desc>
+					<AmountContainer>
+						<ArrowButton
+							onClick={() => handleQuantity("dec")}
+							src="https://img.icons8.com/fluency-systems-regular/48/000000/minus-math.png"
+						></ArrowButton>
+						<Amount>{quantity}</Amount>
+						<ArrowButton
+							onClick={() => handleQuantity("inc")}
+							src="https://img.icons8.com/fluency-systems-regular/48/000000/plus-math.png"
+						></ArrowButton>
+					</AmountContainer>
+					<Button
+						onClick={handleClick}
+						disabled={
+							product && product.inStock <= 0 ? true : false
+						}
+					>
+						{product && product.inStock > 0
+							? "Add to cart"
+							: "Sold out"}
 					</Button>
 				</InfoContainer>
 			</Wrapper>

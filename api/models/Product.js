@@ -8,6 +8,7 @@ const ProductSchema = new mongoose.Schema(
 		img: { type: String, required: true },
 		types: { type: Array, required: true },
 		price: { type: Number, required: true },
+		inStock: { type: Number, default: 10 },
 	},
 	{
 		timestamps: true,
