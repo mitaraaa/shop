@@ -78,6 +78,7 @@ This is a guide to help in understanding the structure of my project
 - [Styled components documentation](https://styled-components.com/docs)
 - [React documentation](https://reactjs.org/docs/getting-started.html)
 - [Mongo DB MERN Stack tutotial](https://www.mongodb.com/languages/mern-stack-tutorial)
+- [Clothes source (VK)](https://vk.com/hikikomorikai)
 
 ---
 
